@@ -8,4 +8,7 @@
     <string name="textview6">t_view6</string>
     <string name="bt_name1">submit</string>
     <string name="t_view7">Course_info</string>
+    <string name="todo_list">Todo List</string>
+    <string name="enter_a_new_todo_item">Enter a new todo item</string>
+    <string name="add">Add</string>
 </resources>

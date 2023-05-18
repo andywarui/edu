@@ -2,30 +2,15 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.Toast;
+import java.util.ArrayList;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Random;
 public class DataActivity extends AppCompatActivity {
     private List<Data> list;
     private int index = 0;
     private Timer timer = new Timer();
     private TimerTask task;
+    private CourseLstAdapter adapter;
+    private final List<Data> followedCourses = new ArrayList<>(); // List to store followed courses
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +39,7 @@ public class DataActivity extends AppCompatActivity {
                         task = new TimerTask() {
                             @Override
                             public void run() {
-                                index = random.nextInt(list.size() -1);
+                                index = random.nextInt(list.size() - 1);
                                 if (index < list.size()) {
                                     Message message = new Message();
                                     message.obj = list.get(index);
@@ -87,20 +72,34 @@ public class DataActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             Data data = (Data) msg.obj;
             Toast.makeText(DataActivity.this,
-                    "StudentID:  "+data.getStudentID()+"  "+
-                            "StudentName:  "+   data.getStudentName()+"  "+
-                            "CourseID:  "+   data.getCourseID()+"  "+
-                            "CourseName:  "+   data.getCourseName()+"  "+
-                            "LecturerName:  "+   data.getLecturerName()+"  "+
-                            "Lecturer Posts Lecture Notes:  "+   data.getIsLecturerPostsLectureNotes()+"  "+
-                            "Assignments Due:  "+   data.getAssignmentsDue()+"  "+
-                            " Assessment Submission:  "+   data.getIsAssessmentSubmission()+"  "+
-                            "Student Signed Up Information:  "+   data.getStudentSignedUpInformation()
-                    ,
+                    "StudentID: " + data.getStudentID() + "  " +
+                            "StudentName: " + data.getStudentName() + "  " +
+                            "CourseID: " + data.getCourseID() + "  " +
+                            "CourseName: " + data.getCourseName() + "  " +
+                            "LecturerName: " + data.getLecturerName() + "  " +
+                            "Lecturer Posts Lecture Notes: " + data.getIsLecturerPostsLectureNotes() + "  " +
+                            "Assignments Due: " + data.getAssignmentsDue() + "  " +
+                            " Assessment Submission: " + data.getIsAssessmentSubmission() + "  " +
+                            "Student Signed Up Information: " + data.getStudentSignedUpInformation(),
                     Toast.LENGTH_SHORT).show();
         }
     };
 
+    private void showFollowedUpdates() {
+        // Display the updates from all followed courses/items in chronological order
+        // You can iterate over the 'followedCourses' list and retrieve the updates for each course/item
+        // Display the updates in the desired format (e.g., in a separate section or as a list)
+
+        // Example code to display the followed course names
+        StringBuilder updatesBuilder = new StringBuilder();
+        for (Data course : followedCourses) {
+            updatesBuilder.append(course.getCourseName()).append("\n");
+        }
+
+        // Show the updates to the user (e.g., in a TextView or Toast)
+        String updatesText = updatesBuilder.toString();
+        Toast.makeText(this, "Followed Updates:\n" + updatesText, Toast.LENGTH_LONG).show();
+    }
 
     @Override
     protected void onDestroy() {
